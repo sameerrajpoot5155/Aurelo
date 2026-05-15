@@ -1,124 +1,248 @@
-# Aurelo — Premium Custom Apparel
+<div align="center">
 
-A production-grade portfolio storefront for bespoke streetwear: editorial luxury UI, full demo mode (no paid backend), and a clean path to Firebase or a Node API later.
+<img src="public/logo.png" width="120" height="120" style="border-radius:50%" alt="Aurelo Logo" />
 
-![Aurelo](public/logo.png)
+# AURELO
 
-## Live demo
+### Premium Custom Apparel Platform
 
-> Deploy to Vercel and add your URL here: `https://your-app.vercel.app`
+*Editorial luxury streetwear — crafted in Lahore, delivered across Pakistan.*
 
-## Quick start
+[![React](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-8-646cff?style=flat-square&logo=vite)](https://vitejs.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-c9a96e?style=flat-square)](LICENSE)
+
+[Live Demo](#) · [Features](#features) · [Quick Start](#quick-start) · [Architecture](#architecture)
+
+</div>
+
+---
+
+## Overview
+
+Aurelo is a **production-grade portfolio project** — a full-featured custom apparel storefront built to demonstrate real-world frontend engineering. It runs 100% in demo mode without any paid backend, but is fully structured for Firebase or a Node API when needed.
+
+**Design:** Dark luxury theme — charcoal `#0d0d0d`, gold accent `#c9a96e`, Cinzel serif + DM Sans, stitching motifs, and film-grain overlay.  
+**Animations:** Page transitions, card hover, staggered grids, floating hero emblem, marquee strip — all respecting `prefers-reduced-motion`.
+
+---
+
+## Quick Start
 
 ```bash
+git clone https://github.com/your-username/aurelo.git
+cd aurelo
 npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173).
+Open [http://localhost:5173](http://localhost:5173)
 
 ```bash
-npm run build    # production build
-npm run test     # Vitest + RTL
-npm run lint     # ESLint
-npm run format   # Prettier
+npm run build       # production build (zero errors)
+npm run test        # Vitest + React Testing Library
+npm run lint        # ESLint
+npm run format      # Prettier
+npm run preview     # preview production build locally
 ```
 
-## Demo credentials
+---
 
-| Role     | Email              | Password  |
-|----------|--------------------|-----------|
-| Customer | any@email.com      | any       |
-| Admin    | admin@aurelo.pk    | admin123  |
+## Demo Credentials
 
-First login seeds sample orders (pending, active, delivered) for portfolio showcase.
+| Role | Email | Password |
+|------|-------|----------|
+| Customer | `any@email.com` | `any password` |
+| Admin | `admin@aurelo.pk` | `admin123` |
 
-## Environment
+> First login automatically seeds 3 sample orders (pending, active, delivered) so the portfolio showcase is populated immediately.
 
-Copy `.env.example` to `.env`:
+---
 
-| Variable            | Values              | Description                          |
-|---------------------|---------------------|--------------------------------------|
-| `VITE_DATA_SOURCE`  | `mock` \| `firebase` \| `api` | Product/order data backend   |
-| `VITE_AUTH_MODE`    | `demo` \| `firebase`        | Authentication mode          |
-| `VITE_API_BASE_URL` | URL                 | When `VITE_DATA_SOURCE=api`          |
+## Features
 
-## Tech stack
+### Storefront
+| Page | What it does |
+|------|-------------|
+| **Home** | Hero section, floating logo emblem, marquee strip, collections grid, featured products, social proof stats, newsletter with fused input+button |
+| **Shop** | Category / audience / price filters, debounced search (350ms), sort (newest, price, rating), load-more pagination |
+| **Product detail** | 3-image gallery, size selector, size guide modal, star rating, verified reviews, related products |
+| **Cart** | Persistent (Redux + localStorage), qty controls, per-line remove, shipping estimate, sticky summary |
+| **Checkout** | 3-step flow (Shipping → Payment → Review), field-level Zod validation, PK payment methods: JazzCash, EasyPaisa, Bank Transfer |
+| **Wishlist** | Toggle heart on any card, persisted in localStorage |
 
-- React 19 + Vite 8 + TypeScript (strict)
-- Redux Toolkit + RTK Query (server state)
-- React Router 7 (lazy routes)
-- Tailwind CSS v4 + design tokens
-- react-hook-form + Zod
-- Sonner (toasts)
-- Framer Motion (animations, respects `prefers-reduced-motion`)
-- Vitest + React Testing Library
+### Account
+| Page | What it does |
+|------|-------------|
+| **Login / Register** | Demo mode (any credentials) + Firebase-ready service layer |
+| **Account** | Profile, saved addresses (mock) |
+| **Orders** | Tabs: All · Pending · Active · Delivered · Cancelled, timeline events, cancel pending orders |
+
+### Admin *(protected)*
+- Product catalogue table (46 items)
+- All orders list with live status dropdown
+- Demo credentials: `admin@aurelo.pk` / `admin123`
+
+### System
+- **404 / 500** styled error pages
+- Mobile-first, fully responsive
+- Focus rings, ARIA labels, keyboard navigation, AA color contrast
+
+---
+
+## Tech Stack
+
+```
+Frontend          React 19 · Vite 8 · TypeScript (strict mode)
+State             Redux Toolkit · RTK Query (server state)
+Routing           React Router 7 (lazy-loaded routes)
+Styling           Tailwind CSS v4 · CSS custom properties (design tokens)
+Forms             react-hook-form · Zod validation
+Animation         Framer Motion (prefers-reduced-motion respected)
+Notifications     Sonner
+Testing           Vitest · React Testing Library
+Linting           ESLint · Prettier
+Deploy            Vercel (SPA rewrites in vercel.json)
+```
+
+---
+
+## Environment Variables
+
+Copy `.env.example` → `.env`:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Values | Default | Description |
+|----------|--------|---------|-------------|
+| `VITE_DATA_SOURCE` | `mock` · `firebase` · `api` | `mock` | Product & order data source |
+| `VITE_AUTH_MODE` | `demo` · `firebase` | `demo` | Authentication mode |
+| `VITE_API_BASE_URL` | URL | — | Used when `VITE_DATA_SOURCE=api` |
+
+> **Never commit `.env`** — it is listed in `.gitignore`. Only `.env.example` is committed.
+
+---
 
 ## Architecture
 
 ```mermaid
 flowchart TB
-  subgraph UI
-    Pages[pages/]
-    Layout[app/layout/]
-    SharedUI[shared/ui/]
+  subgraph Pages["Pages (route-level)"]
+    Home · Shop · Product · Cart · Checkout · Auth · Orders · Admin
   end
 
-  subgraph Features
-    Cart[cart slice]
-    Auth[auth slice]
-    Wishlist[wishlist slice]
+  subgraph Features["Redux Features"]
+    CartSlice["cart slice\n(localStorage)"]
+    AuthSlice["auth slice\n(session)"]
+    WishlistSlice["wishlist slice\n(localStorage)"]
   end
 
-  subgraph Data
-  RTK[aureloApi RTK Query]
-  PS[productService]
-  OS[orderService]
-  AS[authService]
-  Mock[(mockProducts.ts)]
+  subgraph API["RTK Query — aureloApi"]
+    Products["getProducts · getFeatured\ngetProduct · getRelated · getReviews"]
+    Orders["getOrders · getAllOrders\nupdateOrderStatus"]
   end
 
-  Pages --> Layout
+  subgraph Services["Service Layer (swap-ready)"]
+    PS[productService]
+    OS[orderService]
+    AS[authService]
+  end
+
+  subgraph Data["Data Layer"]
+    Mock[("mockProducts.ts\n46 products")]
+    LS[("localStorage")]
+  end
+
   Pages --> Features
-  Pages --> RTK
-  RTK --> PS
-  RTK --> OS
-  PS --> Mock
-  OS --> Mock
-  AS --> LocalStorage[(localStorage)]
-  Cart --> LocalStorage
-  Wishlist --> LocalStorage
+  Pages --> API
+  API --> Services
+  Services --> Mock
+  Services --> LS
+  Features --> LS
 ```
 
-### Folder structure
+### Folder Structure
 
 ```
-src/
-├── app/           # store, router, api, layout
-├── features/      # cart, auth, catalog, checkout, orders, wishlist, admin
-├── pages/         # route-level screens
-├── services/      # productService, orderService, authService
-├── data/          # mock catalog (46 products)
-├── shared/        # ui, hooks, types, animations, icons
-└── test/          # Vitest setup + smoke tests
+aurelo/
+├── public/
+│   └── logo.png                  # brand emblem
+├── src/
+│   ├── app/
+│   │   ├── api.ts                # RTK Query endpoints
+│   │   ├── store.ts              # Redux store
+│   │   ├── router.tsx            # lazy routes
+│   │   └── layout/               # Navbar, Footer, MainLayout, ProtectedRoute
+│   ├── features/
+│   │   ├── auth/                 # authSlice
+│   │   ├── cart/                 # cartSlice (normalized by productId::size)
+│   │   ├── catalog/              # ProductCard
+│   │   ├── checkout/             # Zod schemas
+│   │   └── wishlist/             # wishlistSlice
+│   ├── pages/                    # HomePage, ShopPage, ProductPage, CartPage,
+│   │                             # CheckoutPage, LoginPage, RegisterPage,
+│   │                             # AccountPage, OrdersPage, WishlistPage,
+│   │                             # AdminPage, NotFoundPage, ErrorPage
+│   ├── services/
+│   │   ├── productService.ts     # filters, pagination, reviews
+│   │   ├── orderService.ts       # CRUD + demo seed
+│   │   └── authService.ts        # demo + Firebase-ready
+│   ├── data/
+│   │   └── mockProducts.ts       # 46 products, mock reviews
+│   ├── shared/
+│   │   ├── ui/                   # Button, Input, Badge, Modal, Drawer,
+│   │   │                         # Skeleton, EmptyState, Breadcrumb
+│   │   ├── hooks/                # useAuth, useCart, useOrders, useProducts, redux
+│   │   ├── icons/                # SVG icon set (no external deps)
+│   │   ├── animations/           # Framer Motion variants + easings
+│   │   ├── types/                # shared TypeScript interfaces
+│   │   └── lib/                  # utils, storage, env
+│   └── test/
+│       ├── cart.test.tsx         # cart slice smoke tests
+│       ├── auth.test.tsx         # auth slice smoke tests
+│       └── setup.ts
+├── .env.example
+├── vercel.json                   # SPA rewrites
+├── vitest.config.ts
+├── vite.config.ts
+└── tsconfig.app.json
 ```
 
-## Features
+---
 
-- **Shop** — category, audience, price, sort, debounced search, load more
-- **Product detail** — gallery, size guide modal, reviews, related products
-- **Cart** — Redux + localStorage, normalized line keys (`productId::size`)
-- **Checkout** — 3-step flow, Zod validation, JazzCash / EasyPaisa / bank
-- **Auth** — demo mode + Firebase-ready service layer
-- **Account & orders** — tabs, timeline, cancel pending orders
-- **Wishlist** — persisted locally
-- **Admin** — product table, order status updates (demo)
-- **404 / 500** — styled error pages
+## Deploy to Vercel
 
-## Deploy (Vercel)
+1. Push to GitHub
+2. Import repo at [vercel.com/new](https://vercel.com/new)
+3. Framework preset: **Vite**
+4. Add env vars from `.env.example` in the Vercel dashboard
+5. Deploy — `vercel.json` handles SPA client-side routing rewrites automatically
 
-`vercel.json` includes SPA rewrites. Set env vars in the Vercel dashboard to match `.env.example`.
+---
+
+## Design System
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--color-charcoal` | `#0d0d0d` | page background |
+| `--color-gold` | `#c9a96e` | primary accent, borders, CTAs |
+| `--color-cream` | `#f5f0e8` | body text |
+| `--color-muted` | `#8a8580` | secondary text |
+| `--font-display` | Cinzel (serif) | headings, logo |
+| `--font-body` | DM Sans | all other text |
+
+---
 
 ## License
 
-MIT — portfolio use.
+MIT — free for portfolio and personal use.
+
+---
+
+<div align="center">
+  <sub>Built with precision in Pakistan · Aurelo &copy; 2026</sub>
+</div>
